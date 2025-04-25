@@ -1,66 +1,148 @@
 #include <stdio.h>
 
-// Desafio Batalha Naval - MateCheck
-// Este código inicial serve como base para o desenvolvimento do sistema de Batalha Naval.
-// Siga os comentários para implementar cada parte do desafio.
+#define linha 10 
+#define coluna 10
 
-int main() {
+int main ()
+{
+    int tabuleiro [linha][coluna] = {0};
 
-    // Declaração da matriz
-    int Tabuleiro[10][10] = {
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
-    };
+    int naV;
+    int naH;
+    char direcao;
 
-    // As variáveis das coordenadas
-    int VertLinha;
-    int VertColuna;
-    int HorzLinha;
-    int HorzColuna;
+    printf("--- BATALHA NAVAL ---\n");
+    printf("Escola a posição do navio: 'h' para horizontal, 'v' para vertical, 'd' para diagonal direita ou 'e' para diagonal esquerda: : ");
+    scanf(" %c", &direcao); // espaço antes do %c para ignorar enter pendente
 
-    // Sistema simples para entrada de comando
-    printf("\n=== ENTRADA Batalha Naval ===\n");
-    printf("Digite a linha do navio vertical: ");
-    scanf("%d", &VertLinha);
-
-    printf("Digite a coluna do navio vertical: ");
-    scanf("%d", &VertColuna);
-
-    printf("Digite a linha do navio horizontal: ");
-    scanf("%d", &HorzLinha);
-
-    printf("Digite a coluna do navio horizontal: ");
-    scanf("%d", &HorzColuna);
-
-    // Posicionamento dos navios
-    printf("\n=== COORDENADAS ===\n");
-    for (int i = 0; i < 3; i++) { // Aqui, 3 significa o comprimento do navio
-        Tabuleiro[VertLinha + i][VertColuna] = 3; // Basicamente, ao colocar as coordenadas desejadas, o sistema muda o valor de três posições (partindo da selecionada) para 3, representando a parte de um navio. 
-        printf("Coordenada do Navio Vertical: (%d, %d)\n", VertLinha + i, VertColuna); // "+ i" muda a linha onde está o ponto a alterar
+    // codigo para identificar erro de digito.
+    while (direcao != 'h' && direcao != 'v' && direcao != 'd' && direcao != 'e')
+    {
+        printf("Direção inválida. Digite 'h' para horizontal, 'v' para vertical, 'd' para diagonal direita ou 'e' para diagonal esquerda: \n");
+        scanf(" %c", &direcao);
     }
 
-    for (int i = 0; i < 3; i++) {
-        Tabuleiro[HorzLinha][HorzColuna + i] = 3; // Mesma coisa, mas agora o "+ i" muda a coluna
-        printf("Coordenada do Navio Horizontal: (%d, %d)\n", HorzLinha, HorzColuna + i);
+    //direcao para vertical 
+    if (direcao == 'v')
+    {
+        printf("Digite a linha do navio vertical (0 a %d): ", linha - 3);
+        scanf("%d", &naV);
+
+        //esses codigos em while são para identificar algum erro e repitir até que o usuario escolha o numero ou digito correto.
+        while (naV < 0 || naV > linha - 3)
+        {
+            printf("Linha Inválida. Digite novamente (0 a %d): \n", linha - 3);
+            scanf("%d", &naV);
+        }
+
+        printf("Digite a coluna do navio vertical (0 a %d): ", coluna - 1);
+        scanf("%d", &naH);
+
+        while (naH < 0 || naH >= coluna)
+        {
+            printf("Coluna inválida. Digite novamente (0 a %d): \n", coluna - 1);
+            scanf("%d", &naH);
+        }
+
+        printf("\n--- CORDENADAS ---\n");
+        for (int i = 0; i < 3; i++)
+        {
+            tabuleiro[naV + i][naH] = 3;
+            printf("Coordenada do Navio Vertical: (%d, %d)\n", naV + i, naH);
+        }
+    }
+    
+    //direcao horizontal.
+    else if (direcao == 'h')
+    {
+        printf("Digite a linha do navio horizontal (0 a %d): \n", linha - 1);
+        scanf("%d", &naV);
+
+        while (naV < 0 || naV >= linha)
+        {
+            printf("Linha inválida. Digite novamente (0 a %d): \n", linha - 1);
+            scanf("%d", &naV);
+        }
+
+        printf("Digite a Coluna do navio horizontal (0 a %d): ", coluna - 3);
+        scanf("%d", &naH);
+
+        while (naH < 0 || naH > coluna - 3)
+        {
+            printf("Coluna inválida. Digite novamente (0 a %d): \n", coluna - 3);
+            scanf("%d", &naH);
+        }
+
+        printf("\n--- CORDENADAS ---\n");
+        for (int i = 0; i < 3; i++)
+        {
+            tabuleiro[naV][naH + i] = 3;
+            printf("Coordenada do navio Horizontal: (%d, %d)\n", naV, naH + i);
+        }
+    }
+    
+    else if (direcao == 'd') // diagonal direita "\"
+    {
+        printf("Digite a linha do navio diagonal direita (0 a %d): ", linha - 3);
+        scanf("%d", &naV);
+
+        while (naV < 0 || naV > linha - 3)
+        {
+            printf("Linha inválida. Digite novamente (0 a %d): ", linha - 3);
+            scanf("%d", &naV);
+        }
+
+        printf("Digite a coluna do navio diagonal direita (0 a %d): ", coluna - 3);
+        scanf("%d", &naH);
+
+        while (naH < 0 || naH > coluna - 3)
+        {
+            printf("Coluna inválida. Digite novamente (0 a %d): ", coluna - 3);
+            scanf("%d", &naH);
+        }
+
+        printf("\n--- CORDENADAS ---\n");
+        for (int i = 0; i < 3; i++)
+        {
+            tabuleiro[naV + i][naH + i] = 3;
+            printf("Coordenada do navio Diagonal Direita: (%d, %d)\n", naV + i, naH + i);
+        }
+    }
+    
+    else if (direcao == 'e') // diagonal esquerda "/"
+    {
+        printf("Digite a linha do navio diagonal esquerda (0 a %d): ", linha - 3);
+        scanf("%d", &naV);
+
+        while (naV < 0 || naV > linha - 3)
+        {
+            printf("Linha inválida. Digite novamente (0 a %d): ", linha - 3);
+            scanf("%d", &naV);
+        }
+
+        printf("Digite a coluna do navio diagonal esquerda (2 a %d): ", coluna - 1);
+        scanf("%d", &naH);
+
+        while (naH < 2 || naH > coluna - 1)
+        {
+            printf("Coluna inválida. Digite novamente (2 a %d): ", coluna - 1);
+            scanf("%d", &naH);
+        }
+
+        printf("\n--- CORDENADAS ---\n");
+        for (int i = 0; i < 3; i++)
+        {
+            tabuleiro[naV + i][naH - i] = 3;
+            printf("Coordenada do navio Diagonal Esquerda: (%d, %d)\n", naV + i, naH - i);
+        }
     }
 
     // Exibição do tabuleiro
     printf("\n=== TABULEIRO ===\n");
-    for (int i = 0; i < 10; i++) { // 10 é o tamanho do tabuleiro
-        for (int j = 0; j < 10; j++) {
-            printf("%d ", Tabuleiro[i][j]); // Para cada linha, imprima o valor de cada coluna
+    for (int i = 0; i < linha; i++) {
+        for (int j = 0; j < coluna; j++) {
+            printf("%d ", tabuleiro[i][j]);
         }
         printf("\n");
-    }
-
-
-    return 0;
+    } 
 }
